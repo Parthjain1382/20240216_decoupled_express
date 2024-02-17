@@ -1,0 +1,22 @@
+{
+  "name": "decoupled_express",
+  "version": "0.0.1",
+  "description": "This is an decoupled version of express_commerce",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "mongodb"
+  ],
+  "author": "Pranay Jain",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
