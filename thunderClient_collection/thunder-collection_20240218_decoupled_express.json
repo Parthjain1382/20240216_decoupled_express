@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "20240218_decoupled_express",
-    "dateExported": "2024-02-19T02:55:38.134Z",
+    "dateExported": "2024-02-19T16:09:49.231Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -10,18 +10,19 @@
             "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
             "containerId": "",
             "name": "get/order",
-            "url": "http://localhost:3009/order",
+            "url": "http://localhost:3009/order?orderid=fce8a427-1e14-4c50-8521-3fdfa9584946",
             "method": "GET",
             "sortNum": 20000,
             "created": "2024-02-18T07:26:34.572Z",
-            "modified": "2024-02-18T07:39:54.855Z",
+            "modified": "2024-02-19T04:38:09.915Z",
             "headers": [],
-            "params": [],
-            "body": {
-                "type": "text",
-                "raw": "b8252fb8-02d2-4ce1-86c6-89167a43e1cc",
-                "form": []
-            },
+            "params": [
+                {
+                    "name": "orderid",
+                    "value": "fce8a427-1e14-4c50-8521-3fdfa9584946",
+                    "isPath": false
+                }
+            ],
             "tests": []
         },
         {
@@ -49,16 +50,16 @@
             "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
             "containerId": "",
             "name": "put/checkout",
-            "url": "http://localhost:3009/checkout?id=8&stock=5",
+            "url": "http://localhost:3009/checkout?id=154445&stock=5",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2024-02-18T07:27:49.706Z",
-            "modified": "2024-02-18T17:11:22.649Z",
+            "modified": "2024-02-19T06:10:03.882Z",
             "headers": [],
             "params": [
                 {
                     "name": "id",
-                    "value": "8",
+                    "value": "154445",
                     "isPath": false
                 },
                 {
@@ -78,12 +79,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2024-02-18T07:42:21.606Z",
-            "modified": "2024-02-18T18:35:55.621Z",
+            "modified": "2024-02-19T06:08:50.388Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": " {\n    \"id\": 1595,\n    \"name\": \"towel\",\n    \"description\": \"Best soft towel.\",\n    \"price\": 450,\n    \"stock\": 60,\n    \"imageUrl\": \"https://example.com/towel.jpg\"\n }",
+                "raw": " {\n    \"id\": 154445,\n    \"name\": \"towel\",\n    \"description\": \"Best soft towel.\",\n    \"price\": 450,\n    \"stock\": 60,\n    \"imageUrl\": \"https://example.com/towel.jpg\"\n }",
                 "form": []
             },
             "tests": []
@@ -116,34 +117,14 @@
             "method": "PUT",
             "sortNum": 80000,
             "created": "2024-02-18T11:07:38.803Z",
-            "modified": "2024-02-18T11:09:56.682Z",
+            "modified": "2024-02-19T04:39:28.287Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\r\n  \"orderId\": \"449c0115-6336-4f82-99ab-fcf1bd080213\",\r\n  \"address\": \"shri ram nagar\",\r\n  \"O_status\": \"Shipping\"\r\n}",
+                "raw": "{\n  \"orderId\": \"fce8a427-1e14-4c50-8521-3fdfa9584946\",\n  \"address\": \"shri ram nagar\",\n  \"O_status\": \"Shipping\"\n}",
                 "form": []
             },
-            "tests": []
-        },
-        {
-            "_id": "ef477bdf-da0f-4425-9109-21795b92739a",
-            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
-            "containerId": "",
-            "name": "get/status",
-            "url": "http://localhost:3009/status?orderId=872b463e-5ce7-4a0c-bbeb-98716a091ebf",
-            "method": "GET",
-            "sortNum": 100000,
-            "created": "2024-02-18T12:19:59.816Z",
-            "modified": "2024-02-19T02:08:54.802Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "orderId",
-                    "value": "872b463e-5ce7-4a0c-bbeb-98716a091ebf",
-                    "isPath": false
-                }
-            ],
             "tests": []
         },
         {
@@ -151,19 +132,38 @@
             "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
             "containerId": "",
             "name": "del/order",
-            "url": "http://localhost:3009/order?orderid=449c0115-6336-4f82-99ab-fcf1bd080213",
+            "url": "http://localhost:3009/order?orderid=90064c7d-8f09-4007-917e-7dfa44a609ff",
             "method": "DELETE",
             "sortNum": 110000,
             "created": "2024-02-19T02:38:46.024Z",
-            "modified": "2024-02-19T02:53:00.095Z",
+            "modified": "2024-02-19T06:13:22.672Z",
             "headers": [],
             "params": [
                 {
                     "name": "orderid",
-                    "value": "449c0115-6336-4f82-99ab-fcf1bd080213",
+                    "value": "90064c7d-8f09-4007-917e-7dfa44a609ff",
                     "isPath": false
                 }
             ],
+            "tests": []
+        },
+        {
+            "_id": "083cfd23-7921-40f2-955f-741c26e7b8ac",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "put/update",
+            "url": "http://localhost:3009/update",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2024-02-19T06:19:57.399Z",
+            "modified": "2024-02-19T16:09:32.996Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 2,\n  \"name\": \"napkin\",\n  \"price\": 450,\n  \"imageUrl\": \"http://example.com/napkin.png\",\n  \"description\": \"Updated product details\"\n}",
+                "form": []
+            },
             "tests": []
         }
     ]

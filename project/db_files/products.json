@@ -4,16 +4,16 @@
     "name": "appleiphone",
     "description": "High-end smartphone from Apple.",
     "price": 100000,
-    "stock": -4,
+    "stock": -9,
     "imageUrl": "https://example.com/apple-phone.jpg"
   },
   {
     "id": 2,
-    "name": "banana",
-    "description": "Fresh and ripe banana.",
-    "price": 25,
+    "name": "napkin",
+    "description": "Updated product details",
+    "price": 450,
     "stock": 35,
-    "imageUrl": "https://example.com/banana.jpg"
+    "imageUrl": "http://example.com/napkin.png"
   },
   {
     "id": 3,
@@ -52,7 +52,23 @@
     "name": "bag",
     "description": "Spacious and fashionable bag.",
     "price": 750,
-    "stock": 25,
+    "stock": 15,
     "imageUrl": "https://example.com/bag.jpg"
+  },
+  {
+    "id": 1595,
+    "name": "towel",
+    "description": "Best soft towel.",
+    "price": 450,
+    "stock": 60,
+    "imageUrl": "https://example.com/towel.jpg"
+  },
+  {
+    "id": 154445,
+    "name": "towel",
+    "description": "Best soft towel.",
+    "price": 450,
+    "stock": 60,
+    "imageUrl": "https://example.com/towel.jpg"
   }
 ]

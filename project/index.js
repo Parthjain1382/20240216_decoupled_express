@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 
-
 // internal constants
 const port = 3009
 
@@ -16,13 +15,13 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //Database from jsonwala.com
-const database =require('./jsonwala.js')
+const database = require('./jsonwala.js')
 
 //Database from mongowala.js
 // const database =require('./mongowala.js');
 
-app.get('/search', async(req, res) => {
-  const searchTerm = req.query.name;  
+app.get('/search', async (req, res) => {
+  const searchTerm = req.query.name;
   try {
     const data = await database.searchProducts(searchTerm)
     res.json(data);
@@ -33,7 +32,7 @@ app.get('/search', async(req, res) => {
 
 
 // PUT endpoint to update stock based on product id
-app.put('/checkout', async(req, res) => {
+app.put('/checkout', async (req, res) => {
   const checkoutid = req.query.id;
   const stocksize = req.query.stock;
 
@@ -63,14 +62,14 @@ app.post('/product', async (req, res) => {
 
 
 // deleting a product from the database
-app.delete('/product', async(req, res) => {
+app.delete('/product', async (req, res) => {
   const productId = req.body.id;
-  try{
-    const deleteProduct= await database.deleteProduct(productId);
-    res.status(201).json({deleteProduct});
+  try {
+    const deleteProduct = await database.deleteProduct(productId);
+    res.status(201).json({ deleteProduct });
   }
-  catch(err){  
-    res.status(500).json({message:'Internal Server Error'});
+  catch (err) {
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
@@ -107,40 +106,6 @@ app.put('/order', async (req, res) => {
 });
 
 
-
-// app.delete('/order', (req, res) => {
-//   const orderId = req.query.orderid;
-
-//   // Read existing order data from order.json
-//     let order=database.readOrders()
-
-//     // Find the order with the specified order ID
-//     const orderIndex = order.findIndex(order => order.orderid === orderId);
-
-//     if (orderIndex === -1) {
-//       // If order is not found, send error response
-//       return res.status(404).json({ error: 'Order not found' });
-//     }
-
-//     const { order_pid, quantity } = order[orderIndex];
-
-//     try {
-//       // Subtract the quantity from product stock
-//       database.subtractProductQuantity(order_pid, quantity);
-//     } 
-//     catch (error) {
-//       console.error("Error subtracting product quantity:", error);
-//       return res.status(500).json({ error: 'Internal Server Error' });
-//     }
-
-//     // Remove the order from the order data array
-//     order.splice(orderIndex, 1);
-
-//     database.writeOrders(order)
-//     res.json({ success: 'Order deleted successfully'} );
-// });
-
-
 app.delete('/order', async (req, res) => {
   const orderId = req.query.orderid;
 
@@ -154,19 +119,27 @@ app.delete('/order', async (req, res) => {
   }
 });
 
-app.get('/status', (req, res) => {
-  const orderId = req.query.orderId; // Change from req.body.orderid to req.query.orderid
+
+app.put('/update', async (req, res) => {
   try {
-    const order = database.findOrderById(orderId);
-    if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
+    const pid = req.body.id;
+    const updateFields = req.body;
+    console.log(updateFields);
+    const updatedProduct = await database.updateProduct(pid, updateFields);
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
     }
-    res.json({ status: order.O_status });
+
+    return res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
   } catch (error) {
-    console.error("Error reading file:", error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error updating product:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
-});
+})
+
+
+
 
 
 //Listening port 

@@ -12,8 +12,18 @@ function writeProducts(products) {
   fs.writeFileSync('./db_files/products.json', JSON.stringify(products, null, 2), 'utf8');
 }
 
+// Function to search products based on a search term
+function searchProducts(searchTerm) {
+  const products = readProducts();
+  if (!searchTerm) {
+    throw new Error('Search term is required');
+  }
+  return products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}
 
-
+// function to create a new Product
 function createProduct(newProduct, callback) {
   try {
     let products = readProducts();
@@ -40,16 +50,6 @@ function writeOrders(orders) {
   fs.writeFileSync('./db_files/order.json', JSON.stringify(orders, null, 2), 'utf8');
 }
 
-// Function to search products based on a search term
-function searchProducts(searchTerm) {
-  const products = readProducts();
-  if (!searchTerm) {
-    throw new Error('Search term is required');
-  }
-  return products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-}
 
 // Function to update stock and create order
 function checkoutAndUpdateStock(checkoutid, stocksize) {
@@ -105,6 +105,7 @@ function deleteProduct(productId, callback) {
   });
 }
 
+
 function subtractProductQuantity(productId, quantity) {
   let products = readProducts(); // Read products from the database
   const productIndex = products.findIndex(product => product.id === productId);
@@ -154,6 +155,7 @@ function updateOrder(orderId, address, O_status) {
   writeOrders(orders);
   return orders[orderIndex];
 }
+
 function deleteOrder(orderId) {
   try {
     // Read existing order data from order.json
@@ -185,18 +187,41 @@ function deleteOrder(orderId) {
   }
 }
 
+// Function to update a product by its ID
+function updateProduct(productId, updatedFields) {
+  try {
+    let products = readProducts(); // Read products from the database
+    const productIndex = products.findIndex(product => product.id === parseInt(productId));
+
+    if (productIndex !== -1) {
+      // If the product is found, update its fields with the provided updatedFields
+      products[productIndex] = { ...products[productIndex], ...updatedFields };
+      writeProducts(products); // Write updated product data back to the database
+      return products[productIndex]; // Return the updated product
+    } else {
+      // If the product is not found, throw an error
+      throw new Error('Product not found');
+    }
+  } catch (error) {
+    // If an error occurs during the update process, throw an error
+    throw new Error(`Error updating product: ${error.message}`);
+  }
+}
+
+
 // Export all functions
 module.exports = {
   readProducts,
   writeProducts,
-  readOrders,
-  writeOrders,
-  searchProducts,
-  checkoutAndUpdateStock,
   createProduct,
   deleteProduct,
+  searchProducts,
+  readOrders,
+  writeOrders,
+  updateOrder,
+  deleteOrder,
+  checkoutAndUpdateStock, 
   subtractProductQuantity,
   findOrderById,
-  updateOrder,
-  deleteOrder 
+  updateProduct
 };

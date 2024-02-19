@@ -279,15 +279,6 @@
     "_totalcost": 125
   },
   {
-    "orderid": "fce8a427-1e14-4c50-8521-3fdfa9584946",
-    "address": "",
-    "O_status": "",
-    "order_pid": 1,
-    "quantity": 5,
-    "cost": 100000,
-    "_totalcost": 500000
-  },
-  {
     "orderid": "da97f7fa-fcfb-4a1e-8212-70af8ddfd6f0",
     "address": "",
     "O_status": "",
@@ -304,5 +295,23 @@
     "quantity": 5,
     "cost": 100000,
     "_totalcost": 500000
+  },
+  {
+    "orderid": "387157b4-f56b-4661-b998-579c854d9cec",
+    "address": "",
+    "O_status": "",
+    "order_pid": 8,
+    "quantity": 5,
+    "cost": 750,
+    "_totalcost": 3750
+  },
+  {
+    "orderid": "fc835faa-b7f6-444d-978b-6d954c7ca948",
+    "address": "",
+    "O_status": "",
+    "order_pid": 8,
+    "quantity": 5,
+    "cost": 750,
+    "_totalcost": 3750
   }
 ]

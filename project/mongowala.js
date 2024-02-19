@@ -1,5 +1,5 @@
 // This is the file for mongowala.js which is responsible for performing 
-// operation with the atlas database
+// operation with the atlas database using mongoose
 
 //external requirement
 const mongoose = require('mongoose');
@@ -31,56 +31,56 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   name: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   description: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   price: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   stock: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   imageUrl: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   }
 });
 
 // order document schema
 const orderSchema = new mongoose.Schema({
   orderid: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   address: {
-      type: String,
-      required: false
+    type: String,
+    required: false
   },
   O_status: {
-      type: String,
-      required: false
+    type: String,
+    required: false
   },
   order_pid: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   quantity: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   cost: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   _totalcost: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   }
 });
 
@@ -99,42 +99,51 @@ const searchProducts = async (searchTerm) => {
 // function to check stock and update the stock
 const checkoutAndUpdateStock = async (productId, stocksize) => {
   try {
-      // Update the stock by subtracting the stocksize directly in the database
-      const updatedProduct = await products.findOneAndUpdate(
-          { id: productId },
-          { $inc: { stock: -stocksize } }, // Decrement stock by stocksize
-          { new: true } // Return the updated document
-      );
-      // if the updateProduct is not found 
-      if (!updatedProduct) {
-          throw new Error('Product not found');
-      }
-      // Create a new order
-      const newOrder = new order({
-          orderid: uuidv4(), // Generate a unique order ID
-          order_pid: productId,
-          quantity: stocksize,
-          cost: cost,
-          _totalcost: cost // For now, assuming no additional fees or taxes
-      });
-      // Save the new order
-      await newOrder.save();
-      return { success: 'Stock and order updated successfully', 
-      updatedProduct: updatedProduct, newOrder: newOrder };
+    // Assuming products is a MongoDB collection
+    const updatedProduct = await products.findOneAndUpdate(
+      { id: productId },
+      { $inc: { stock: -stocksize } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      throw new Error('Product not found');
+    }
+
+    const cost = updatedProduct.price; // Get the price from the updated product
+
+    // Create a new order
+    const newOrder = new order({
+      orderid: uuidv4(),
+      order_pid: productId,
+      quantity: stocksize,
+      cost: cost,
+      _totalcost: cost * stocksize // Calculate total cost
+    });
+
+    // Save the new order
+    await newOrder.save();
+
+    return {
+      success: 'Stock and order updated successfully',
+      updatedProduct: updatedProduct,
+      newOrder: newOrder
+    };
   } catch (error) {
-      throw new Error(`Error updating stock: ${error.message}`);
+    throw new Error(`Error updating stock: ${error.message}`);
   }
 };
+
 
 // To create a new product object 
 const createProduct = async (newProductData) => {
   try {
-      // Create a new product instance
-      const newProduct = new products(newProductData);
-      // Save the new product to the database
-      await newProduct.save();
+    // Create a new product instance
+    const newProduct = new products(newProductData);
+    // Save the new product to the database
+    await newProduct.save();
   } catch (error) {
-      throw new Error(`Error creating product: ${error.message}`);
+    throw new Error(`Error creating product: ${error.message}`);
   }
 };
 
@@ -144,13 +153,13 @@ const deleteProduct = async (productId) => {
     // Check if the product exists
     const existingProduct = await products.findOne({ id: productId });
     if (existingProduct) {
-    // If the product exists, delete it
-    await products.deleteOne({ id: productId });
-    return 'Product deleted successfully';
-  }
-  else{
-    return 'product not found';
-  }
+      // If the product exists, delete it
+      await products.deleteOne({ id: productId });
+      return 'Product deleted successfully';
+    }
+    else {
+      return 'product not found';
+    }
   } catch (error) {
     throw new Error(`Error deleting product: ${error.message}`);
   }
@@ -158,7 +167,7 @@ const deleteProduct = async (productId) => {
 
 
 
-const findOrderById= async(orderId)=> {
+const findOrderById = async (orderId) => {
   try {
     const o_id = await order.findOne({ orderid: orderId });
     return o_id;
@@ -219,6 +228,23 @@ async function deleteOrder(orderId) {
   }
 }
 
+async function updateProduct(pid, updateFields) {
+  try {
+    const updatedProduct = await products.findOneAndUpdate(
+      { id: pid }, // Query criteria
+      updateFields, // Fields to update
+      { new: true } // Options: Return the modified document rather than the original
+    );
+
+    return updatedProduct;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw new Error('Error updating product:', error);
+  }
+}
+
+
+
 
 module.exports = {
   searchProducts,
@@ -228,6 +254,7 @@ module.exports = {
   findOrderById,
   updateOrder,
   deleteOrder,
+  updateProduct,
   products,
   order
 };
