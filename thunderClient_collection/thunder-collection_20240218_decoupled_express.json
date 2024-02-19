@@ -1,0 +1,170 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "20240218_decoupled_express",
+    "dateExported": "2024-02-19T02:55:38.134Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "c5c7bf69-bccb-4f31-886b-e4b02269ac6b",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "get/order",
+            "url": "http://localhost:3009/order",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-18T07:26:34.572Z",
+            "modified": "2024-02-18T07:39:54.855Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "text",
+                "raw": "b8252fb8-02d2-4ce1-86c6-89167a43e1cc",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ca4eb7ab-7b61-4c5e-90e6-b08c338fdd74",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "get/search",
+            "url": "http://localhost:3009/search?name=banana",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-02-18T07:27:37.239Z",
+            "modified": "2024-02-18T15:31:59.406Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "name",
+                    "value": "banana",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "0f8cd271-ea38-47fa-8527-45ca8015842c",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "put/checkout",
+            "url": "http://localhost:3009/checkout?id=8&stock=5",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-18T07:27:49.706Z",
+            "modified": "2024-02-18T17:11:22.649Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "8",
+                    "isPath": false
+                },
+                {
+                    "name": "stock",
+                    "value": "5",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "e615e446-0c49-4796-adf9-7b9e08140e76",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "post/product",
+            "url": "http://localhost:3009/product",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-02-18T07:42:21.606Z",
+            "modified": "2024-02-18T18:35:55.621Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": " {\n    \"id\": 1595,\n    \"name\": \"towel\",\n    \"description\": \"Best soft towel.\",\n    \"price\": 450,\n    \"stock\": 60,\n    \"imageUrl\": \"https://example.com/towel.jpg\"\n }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e374e0d2-63b9-4bbb-8bf9-57d14dfa3780",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "del/product",
+            "url": "http://localhost:3009/product",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2024-02-18T07:45:12.700Z",
+            "modified": "2024-02-18T19:00:39.678Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":1556\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1f2a5e62-5fc1-4931-ae5d-a6903f172a70",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "put/order",
+            "url": "http://localhost:3009/order",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2024-02-18T11:07:38.803Z",
+            "modified": "2024-02-18T11:09:56.682Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"orderId\": \"449c0115-6336-4f82-99ab-fcf1bd080213\",\r\n  \"address\": \"shri ram nagar\",\r\n  \"O_status\": \"Shipping\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ef477bdf-da0f-4425-9109-21795b92739a",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "get/status",
+            "url": "http://localhost:3009/status?orderId=872b463e-5ce7-4a0c-bbeb-98716a091ebf",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-02-18T12:19:59.816Z",
+            "modified": "2024-02-19T02:08:54.802Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "orderId",
+                    "value": "872b463e-5ce7-4a0c-bbeb-98716a091ebf",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "c742b4de-4c0f-4f3c-b7ee-e5e99b5d4ee0",
+            "colId": "255de301-fe3a-4f78-9dd1-19e11ad120d5",
+            "containerId": "",
+            "name": "del/order",
+            "url": "http://localhost:3009/order?orderid=449c0115-6336-4f82-99ab-fcf1bd080213",
+            "method": "DELETE",
+            "sortNum": 110000,
+            "created": "2024-02-19T02:38:46.024Z",
+            "modified": "2024-02-19T02:53:00.095Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "orderid",
+                    "value": "449c0115-6336-4f82-99ab-fcf1bd080213",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        }
+    ]
+}

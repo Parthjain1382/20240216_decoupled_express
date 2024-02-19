@@ -4,7 +4,7 @@
     "name": "appleiphone",
     "description": "High-end smartphone from Apple.",
     "price": 100000,
-    "stock": 16,
+    "stock": -4,
     "imageUrl": "https://example.com/apple-phone.jpg"
   },
   {
@@ -12,7 +12,7 @@
     "name": "banana",
     "description": "Fresh and ripe banana.",
     "price": 25,
-    "stock": 60,
+    "stock": 35,
     "imageUrl": "https://example.com/banana.jpg"
   },
   {
@@ -32,19 +32,11 @@
     "imageUrl": "https://example.com/charger.jpg"
   },
   {
-    "id": 5,
-    "name": "cable",
-    "description": "High-quality USB cable.",
-    "price": 100,
-    "stock": 96,
-    "imageUrl": "https://example.com/cable.jpg"
-  },
-  {
     "id": 6,
     "name": "earbuds",
     "description": "Wireless earbuds with great sound quality.",
     "price": 500,
-    "stock": -104,
+    "stock": -112,
     "imageUrl": "https://example.com/earbuds.jpg"
   },
   {
@@ -62,21 +54,5 @@
     "price": 750,
     "stock": 25,
     "imageUrl": "https://example.com/bag.jpg"
-  },
-  {
-    "id": 9,
-    "name": "pen",
-    "description": "Smooth-writing ballpoint pen.",
-    "price": 150,
-    "stock": 50,
-    "imageUrl": "https://example.com/pen.jpg"
-  },
-  {
-    "id": 10,
-    "name": "mouse",
-    "description": "Wireless computer mouse with ergonomic design.",
-    "price": 750,
-    "stock": 35,
-    "imageUrl": "https://example.com/mouse.jpg"
   }
 ]
