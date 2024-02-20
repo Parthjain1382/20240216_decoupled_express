@@ -7,7 +7,10 @@ function readProducts() {
   return JSON.parse(productdata);
 }
 
-// Function to write products to the JSON file
+/**It makes changes in the product 
+ * @param {object} products 
+ * @returns {object} It return the changes made to the product 
+ */
 function writeProducts(products) {
   fs.writeFileSync('./db_files/products.json', JSON.stringify(products, null, 2), 'utf8');
 }
@@ -15,7 +18,9 @@ function writeProducts(products) {
 // Function to search products based on a search term
 function searchProducts(searchTerm) {
   const products = readProducts();
+
   if (!searchTerm) {
+    //if empty seacrh string 
     throw new Error('Search term is required');
   }
   return products.filter(product =>
@@ -23,10 +28,15 @@ function searchProducts(searchTerm) {
   );
 }
 
-// function to create a new Product
+/**This function is used to add new product in the database
+ * @param {object} newProductData new product that needs to added 
+ * @param {Function} callback To deal with any error
+ */
 function createProduct(newProduct, callback) {
   try {
+    //reading the product file
     let products = readProducts();
+    //writing the new product 
     products.push(newProduct);
     writeProducts(products);
     if (typeof callback === 'function') {
@@ -39,19 +49,27 @@ function createProduct(newProduct, callback) {
   }
 }
 
-// Function to read orders from the JSON file
+/** Function to read orders from the JSON file
+ * @returns {object} read order deatils 
+*/
 function readOrders() {
   const orderData = fs.readFileSync('./db_files/order.json', 'utf-8');
+  // return the parse order detail 
   return JSON.parse(orderData);
 }
 
-// Function to write orders to the JSON file
+/**Function to write orders to the JSON file
+ * @param {object} orders It takes the order of the object 
+ * */
 function writeOrders(orders) {
   fs.writeFileSync('./db_files/order.json', JSON.stringify(orders, null, 2), 'utf8');
 }
 
 
-// Function to update stock and create order
+/**function to check stock and update the stock
+ * @param {number} checkoutid It is the id of product
+ * @param {number} stocksize It is the size of the stock   
+ * */ 
 function checkoutAndUpdateStock(checkoutid, stocksize) {
   const products = readProducts();
   const orderData = readOrders();
@@ -62,6 +80,7 @@ function checkoutAndUpdateStock(checkoutid, stocksize) {
     products[productIndex].stock -= parseInt(stocksize, 10);
     writeProducts(products);
 
+    //new order created 
     let newOrder = {
       "orderid": uuidv4(),
       "address": "",
@@ -71,6 +90,8 @@ function checkoutAndUpdateStock(checkoutid, stocksize) {
       "cost": products[productIndex].price,
       "_totalcost": stocksize * products[productIndex].price
     };
+
+    //pushing the new order to database
     orderData.push(newOrder);
     writeOrders(orderData);
 
@@ -80,6 +101,10 @@ function checkoutAndUpdateStock(checkoutid, stocksize) {
   }
 }
 
+/**Deleting the product in database using the product id
+ * @param {number} productId It take id of product 
+ * @param {Function} callback It return the success or error message
+ */
 function deleteProduct(productId, callback) {
   fs.readFile('./db_files/products.json', 'utf8', (err, data) => {
     if (err) {
@@ -87,14 +112,17 @@ function deleteProduct(productId, callback) {
       return callback(err);
     }
     let products = JSON.parse(data);
+    //find the required index
     const index = products.findIndex(product => product.id === parseInt(productId));
 
     if (index === -1) {
       return callback(null, { message: 'Product not found' });
     }
 
+    //If the index is found then remove the product
     products.splice(index, 1);
 
+    // after the deletion write it back to database
     fs.writeFile('./db_files/products.json', JSON.stringify(products, null, 2), 'utf8', (err) => {
       if (err) {
         console.error("Error writing file:", err);
@@ -105,7 +133,10 @@ function deleteProduct(productId, callback) {
   });
 }
 
-
+/**To make changes in the product quantity 
+ * @param {number} productId It takes the productid as input 
+ * @param {number} quantity It takes the quantity as input 
+ */
 function subtractProductQuantity(productId, quantity) {
   let products = readProducts(); // Read products from the database
   const productIndex = products.findIndex(product => product.id === productId);
@@ -120,6 +151,11 @@ function subtractProductQuantity(productId, quantity) {
   }
 }
 
+
+/**Finding the order by id
+ * @param {number} orderId It takes the orderId as input 
+ * @returns {object} o_id It returns the order details 
+ */
 function findOrderById(orderId) {
   try {
     const orders = readOrders();
@@ -135,7 +171,12 @@ function findOrderById(orderId) {
   }
 }
 
-// Function to update an order by its ID
+/**Updating the address or the order status 
+ * @param {number} orderId It takes the orderid 
+ * @param {string} address It takes string as input  
+ * @param {string} O_status It takes string as input 
+ * @returns {object} The changed object 
+ */
 function updateOrder(orderId, address, O_status) {
   const orders = readOrders();
   const orderIndex = orders.findIndex(order => order.orderid === orderId);
@@ -156,6 +197,10 @@ function updateOrder(orderId, address, O_status) {
   return orders[orderIndex];
 }
 
+/**It delete a order that is created
+ * @param {number} orderId It takes input of orderid
+ * @returns {boolean} return true or false
+ */
 function deleteOrder(orderId) {
   try {
     // Read existing order data from order.json
@@ -187,7 +232,11 @@ function deleteOrder(orderId) {
   }
 }
 
-// Function to update a product by its ID
+/**It is used to update a product deatails
+ * @param {number} productId It takes the product id   
+ * @param {object} updateFields It take the changes in the products 
+ * @returns {object} It returns the updated object of product
+ */
 function updateProduct(productId, updatedFields) {
   try {
     let products = readProducts(); // Read products from the database

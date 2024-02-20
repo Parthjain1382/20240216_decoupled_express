@@ -8,7 +8,9 @@ const { v4: uuidv4 } = require('uuid');
 // Connection URI
 const uri = 'mongodb+srv://root:root@decoupledcommerce.n3jfrhh.mongodb.net/?retryWrites=true&w=majority';
 
-// Connection to MongoDB
+/**Connection to MongoDB
+ * @param {uri} useNewUrlParser It takes the url 
+ * */ 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
@@ -88,15 +90,23 @@ const orderSchema = new mongoose.Schema({
 const products = mongoose.model('products', productSchema);
 const order = mongoose.model('order', orderSchema);
 
+/**This function is used to search the product object in  the database 
+ * @param {object} searchTerm The roduct that needs to be searched
+ * @returns {object} The search object or the error message 
+ */
 const searchProducts = async (searchTerm) => {
   try {
+    //If object found in the database
     return await products.find({ "name": searchTerm });
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-// function to check stock and update the stock
+/**function to check stock and update the stock
+ * @param {number} productId It is the id of product
+ * @param {number} stocksize It is the size of the stock   
+ * */ 
 const checkoutAndUpdateStock = async (productId, stocksize) => {
   try {
     // Assuming products is a MongoDB collection
@@ -105,12 +115,14 @@ const checkoutAndUpdateStock = async (productId, stocksize) => {
       { $inc: { stock: -stocksize } },
       { new: true }
     );
-
+    
+    // if the updatedproduct is not found
     if (!updatedProduct) {
       throw new Error('Product not found');
     }
 
-    const cost = updatedProduct.price; // Get the price from the updated product
+    // Get the price from the updated product
+    const cost = updatedProduct.price; 
 
     // Create a new order
     const newOrder = new order({
@@ -134,8 +146,9 @@ const checkoutAndUpdateStock = async (productId, stocksize) => {
   }
 };
 
-
-// To create a new product object 
+/**This function is used to add new product in the database
+ * @param {object} newProductData new product that needs to added 
+ */
 const createProduct = async (newProductData) => {
   try {
     // Create a new product instance
@@ -147,7 +160,10 @@ const createProduct = async (newProductData) => {
   }
 };
 
-//function to delete a product from the product document 
+/**Deleting the product in database using the product id
+ * @param {number} productId It take id of product 
+ * @returns {message} It return the success or error message
+ */
 const deleteProduct = async (productId) => {
   try {
     // Check if the product exists
@@ -158,6 +174,7 @@ const deleteProduct = async (productId) => {
       return 'Product deleted successfully';
     }
     else {
+      //if product not found
       return 'product not found';
     }
   } catch (error) {
@@ -166,9 +183,13 @@ const deleteProduct = async (productId) => {
 };
 
 
-
+/**Finding the order by id
+ * @param {number} orderId It takes the orderId as input 
+ * @returns {object} o_id It returns the order details 
+ */
 const findOrderById = async (orderId) => {
   try {
+    //if order id is founded
     const o_id = await order.findOne({ orderid: orderId });
     return o_id;
   } catch (e) {
@@ -177,20 +198,27 @@ const findOrderById = async (orderId) => {
   }
 };
 
-
+/**Updating the address or the order status 
+ * @param {number} orderId It takes the orderid 
+ * @param {string} address It takes string as input  
+ * @param {string} O_status It takes string as input 
+ * @returns {object} The changed object 
+ */
 async function updateOrder(orderId, address, O_status) {
   try {
-    const foundOrder = await order.findOne({ orderid: orderId }); // Renamed to 'foundOrder'
+    //checking whether the order is present or not 
+    const foundOrder = await order.findOne({ orderid: orderId }); 
     if (!foundOrder) {
       throw new Error('Order not found');
     }
     if (address) {
-      foundOrder.address = address; // Updated 'order' to 'foundOrder'
+      foundOrder.address = address; 
     }
     if (O_status) {
-      foundOrder.O_status = O_status; // Updated 'order' to 'foundOrder'
+      foundOrder.O_status = O_status; 
     }
-    await foundOrder.save(); // Saved 'foundOrder' instead of 'order'
+    //save the changes
+    await foundOrder.save(); 
     return foundOrder;
   } catch (error) {
     throw new Error(`Error updating order: ${error.message}`);
@@ -198,8 +226,10 @@ async function updateOrder(orderId, address, O_status) {
 }
 
 
-
-// Function to delete an order by its ID
+/**It delete a order that is created
+ * @param {number} orderId It takes input of orderid
+ * @returns {boolean} return true or false
+ */
 async function deleteOrder(orderId) {
   try {
     // Find the order by its ID
@@ -216,7 +246,9 @@ async function deleteOrder(orderId) {
     if (!product) {
       throw new Error('Product not found');
     }
+    //changing the stock quantity 
     product.stock += quantity;
+    //saving the changes in the product
     await product.save();
 
     // Delete the order
@@ -228,6 +260,11 @@ async function deleteOrder(orderId) {
   }
 }
 
+/**It is used to update a product deatails
+ * @param {number} pid It takes the product id   
+ * @param {object} updateFields It take the changes in the products 
+ * @returns {object} It returns the updated object of product
+ */
 async function updateProduct(pid, updateFields) {
   try {
     const updatedProduct = await products.findOneAndUpdate(
@@ -238,6 +275,7 @@ async function updateProduct(pid, updateFields) {
 
     return updatedProduct;
   } catch (error) {
+    // if any error occurs
     console.error('Error updating product:', error);
     throw new Error('Error updating product:', error);
   }
@@ -245,7 +283,7 @@ async function updateProduct(pid, updateFields) {
 
 
 
-
+// To export nesscary modules
 module.exports = {
   searchProducts,
   checkoutAndUpdateStock,

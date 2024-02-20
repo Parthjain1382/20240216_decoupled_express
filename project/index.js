@@ -15,14 +15,17 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //Database from jsonwala.com
-const database = require('./jsonwala.js')
+// const database = require('./jsonwala.js')
 
 //Database from mongowala.js
-// const database =require('./mongowala.js');
+const database =require('./mongowala.js');
 
+
+// API to search the product in the database
 app.get('/search', async (req, res) => {
   const searchTerm = req.query.name;
   try {
+    //calling the database to search the required product
     const data = await database.searchProducts(searchTerm)
     res.json(data);
   } catch (error) {
@@ -36,10 +39,12 @@ app.put('/checkout', async (req, res) => {
   const checkoutid = req.query.id;
   const stocksize = req.query.stock;
 
+  // if parameter data is missing  
   if (!checkoutid || !stocksize) {
     return res.status(400).json({ error: 'Missing id or stock in the request query parameters' });
   }
   try {
+    //connect to database 
     const result = await database.checkoutAndUpdateStock(checkoutid, stocksize);
     res.json({ success: 'Stock and order updated successfully', ...result });
   } catch (error) {
@@ -78,6 +83,7 @@ app.delete('/product', async (req, res) => {
 app.get('/order', async (req, res) => {
   const orderId = req.query.orderid;
   try {
+    // to get the specified product with using the order id
     const order = await database.findOrderById(orderId);
     if (order) {
       res.json({ success: true, order: order });
@@ -89,7 +95,8 @@ app.get('/order', async (req, res) => {
   }
 });
 
-
+//This is used to makes changes in the order mainly address 
+// and status
 app.put('/order', async (req, res) => {
   const orderId = req.body.orderId;
   const { address, O_status } = req.body;
@@ -105,7 +112,7 @@ app.put('/order', async (req, res) => {
   }
 });
 
-
+//To delete the order created in the database
 app.delete('/order', async (req, res) => {
   const orderId = req.query.orderid;
 
@@ -119,14 +126,15 @@ app.delete('/order', async (req, res) => {
   }
 });
 
-
+//To update any product in the database  
 app.put('/update', async (req, res) => {
   try {
     const pid = req.body.id;
     const updateFields = req.body;
-    console.log(updateFields);
+    //change made to updatedproduct variable 
     const updatedProduct = await database.updateProduct(pid, updateFields);
 
+    // if error occurs
     if (!updatedProduct) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -137,9 +145,6 @@ app.put('/update', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 })
-
-
-
 
 
 //Listening port 
